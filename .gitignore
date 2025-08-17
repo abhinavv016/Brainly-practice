@@ -1,0 +1,14 @@
+# common
+node_modules/
+dist/
+.env
+.DS_Store
+
+# frontend
+brainly-frontend/node_modules/
+brainly-frontend/.env
+
+# backend
+brainly-backend/node_modules/
+brainly-backend/.env
+brainly-backend/dist/
