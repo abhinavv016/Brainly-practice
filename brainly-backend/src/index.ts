@@ -6,9 +6,11 @@ import { config } from "./config";
 import { userMiddleware } from "./middleware";
 import { random } from "./utils";
 import { connectDB } from "./db";
+import cors from "cors";
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 
 app.post("/api/v1/signup", async (req, res) => {
@@ -70,17 +72,28 @@ app.post("/api/v1/signin",async (req, res) => {
 })
 
 app.post("/api/v1/content", userMiddleware, async(req, res) => {
-    const title = req.body.title;
+    const type = req.body.type;
     const link = req.body.link;
-
+    const title= req.body.title;
+    
     await ContentModel.create({
         title,
+        type,
         link,
         userId: req.userId,
         tags:[]
     })
     return res.json({
         message: "Content added"
+    })
+})
+app.get("/api/v1/content", userMiddleware, async (req, res) => {
+    const userId = req.userId;
+    const content = await ContentModel.find({
+        userId: userId
+    }).populate("userId", "username")
+    res.json({
+        content
     })
 })
 
@@ -140,8 +153,8 @@ app.post("/api/v1/brain/share", userMiddleware, async (req, res) => {
         }
         const hash = random(10);
         await LinkModel.create({
-            hash: hash,
-            link: req.userId
+            link: req.userId,
+            hash: hash
         });
 
         res.json({
