@@ -13,7 +13,7 @@ import axios from "axios";
 interface CardProps {
   title: string;
   link: string;
-  type: "twitter" | "youtube" | "reddit";
+  type: "twitter" | "youtube" | "reddit" | any;
   _id?: string;
 }
 
