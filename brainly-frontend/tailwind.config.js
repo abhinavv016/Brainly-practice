@@ -19,6 +19,7 @@ export default {
           100: "#F8FBFC",
           300: "#DDDDDD",
           600: "#ACACAC",
+          700: "#6A7280"
         }
       }
     },

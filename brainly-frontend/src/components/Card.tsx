@@ -9,6 +9,7 @@ import { TwitterIcon } from "../icons/TwitterIcon";
 import { useContent } from "../hooks/useContent";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
+import { OpenIcon } from "../icons/OpenIcon";
 
 interface CardProps {
   title: string;
@@ -20,6 +21,15 @@ interface CardProps {
 export function Card({ title, link, type, _id }: CardProps) {
   const { refresh } = useContent() || {};
 
+  async function handleShare() {
+    try {
+      await navigator.clipboard.writeText(link);
+      alert("Link copied to clipboard!");
+    } catch (error) {
+      console.error("Error in copying the content: ", error);
+      alert("Failed to copy link.");
+    }
+  }
   async function handleDelete() {
     try {
       const token = localStorage.getItem("token");
@@ -51,8 +61,14 @@ export function Card({ title, link, type, _id }: CardProps) {
           <div className="flex items-center text-gray-500">
             <div className="pr-4">
               <a href={link} target="_blank">
-                <ShareIcon />
+                <OpenIcon />
               </a>
+            </div>
+            <div 
+            className="pr-4 cursor-pointer"
+            onClick={handleShare}
+            >
+              <ShareIcon/>
             </div>
             <div
               className="cursor-pointer"
