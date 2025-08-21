@@ -6,13 +6,11 @@ import { PlusIcon } from "../icons/PlusIcon"
 import { ShareIcon } from "../icons/ShareIcon"
 import { Sidebar } from "../components/Sidebar"
 import { useContent } from "../hooks/useContent"
-import { BACKEND_URL } from "../config"
+import { BACKEND_URL, FRONTEND_URL } from "../config"
 import axios from "axios"
-import { useParams } from "react-router-dom"
 
 
 export function Dashboard() {
-  const { shareId } = useParams();
   const [modelOpen, setModelOpen] = useState(false);
   const { refresh, contents } = useContent();
 
@@ -36,7 +34,7 @@ export function Dashboard() {
                 "Authorization":`Bearer ${localStorage.getItem("token")}`  
             }
         });
-        const shareUrl = `{FRONTEND_URL}/share/${(response.data as any).hash}`;
+        const shareUrl = `${FRONTEND_URL}/share/${(response.data as any).hash}`;
         navigator.clipboard.writeText(shareUrl)
         alert("!!Link Generated")
       }} variant="secondary" text="Share brain" startIcon={<ShareIcon/>}></Button>

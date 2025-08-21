@@ -13,8 +13,8 @@ import axios from "axios";
 interface CardProps {
   title: string;
   link: string;
-  type: "twitter" | "youtube" | "reddit" | any;
-  _id: string;
+  type: "twitter" | "youtube" | "reddit";
+  _id?: string;
 }
 
 export function Card({ title, link, type, _id }: CardProps) {
