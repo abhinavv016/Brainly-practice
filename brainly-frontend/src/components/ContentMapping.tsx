@@ -13,7 +13,7 @@ export function ContentMapping({contents}: {contents : allContent[]}){
             <div className="flex flex-wrap items-center gap-4">
                 {contents.map(({title, _id, type, link}) => (
                 <Card
-                key={_id}
+                _id={_id}
                 type={type}
                 link={link}
                 title={title}

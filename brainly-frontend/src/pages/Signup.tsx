@@ -7,6 +7,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export function Signup(){
+    
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ export function Signup(){
             username,
             password
         })
-        alert("You've Signed up")
+        alert("You've Signedup")
         navigate("/signin");
     }
     return <div className="h-screen w-screen flex justify-center bg-gray-200 items-center">
