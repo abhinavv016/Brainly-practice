@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { YoutubePage } from "./pages/YoutubePage"
 import { RedditPage } from "./pages/RedditPage"
 import { TwitterPage } from "./pages/TwitterPage"
-import { PrivateRoute } from "./components/privateRoute"
+import { PrivateRoute } from "./components/private"
 
 function App() {
   return <div>
