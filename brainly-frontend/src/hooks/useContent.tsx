@@ -5,9 +5,14 @@ import axios from "axios";
 export function useContent(){
     const [contents, setContents] = useState([]);
     
-    function refresh(){
+    async function refresh(){
         const token = localStorage.getItem("token")
-        axios.get(`${BACKEND_URL}/api/v1/content` ,{
+
+        if (!token) {
+            console.log("No token found, stopping content fetch.");
+            return;
+        }
+        await axios.get(`${BACKEND_URL}/api/v1/content` ,{
         headers: {
             "Authorization": `Bearer ${token}`
         }

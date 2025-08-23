@@ -13,12 +13,12 @@ export function SidebarItems({icon, text}: {
     function handleClick(){
         navigate(route);
     }
-    return <div className="flex items-center py-2 pl-4 cursor-pointer hover:bg-gray-200 rounded max-w-48" onClick={handleClick}>
+    return <a href={route} className="flex items-center py-2 pl-4 cursor-pointer hover:bg-gray-200 rounded max-w-48" onClick={handleClick}>
         <div className="pr-2">
             {icon}
         </div>
         <div className="text-gray-700">
             {text}
         </div>
-    </div>
+    </a>
 }

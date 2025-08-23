@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { YoutubePage } from "./pages/YoutubePage"
 import { RedditPage } from "./pages/RedditPage"
 import { TwitterPage } from "./pages/TwitterPage"
+import { PrivateRoute } from "./components/privateRoute"
 
 function App() {
   return <div>
@@ -13,13 +14,31 @@ function App() {
       <Routes>
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/signin" element={<Signin/>}/>
-        <Route path="/dashboard" element={<Dashboard/>}/>
         <Route path="" element={<Signup/>}/>
-        <Route path="/share/:shareId" element={<SharePage/>}/>
-        <Route path="/universe" element={<Dashboard/>}/>
-        <Route path="/youtube" element={<YoutubePage/>}/>
-        <Route path="/reddit" element={<RedditPage/>}/>
-        <Route path="/twitter" element={<TwitterPage/>}/>
+        <Route 
+          path="/share/:shareId" 
+          element={<SharePage/>}
+        />
+        <Route 
+          path="/dashboard" 
+          element={ <PrivateRoute> <Dashboard/> </PrivateRoute>}
+        />
+        <Route 
+          path="/universe" 
+          element={<PrivateRoute><Dashboard/></PrivateRoute>}
+        />
+        <Route 
+          path="/youtube"
+          element={<PrivateRoute><YoutubePage/></PrivateRoute>}
+          />
+        <Route 
+          path="/reddit" 
+          element={<PrivateRoute><RedditPage/></PrivateRoute>}
+          />
+        <Route 
+          path="/twitter" 
+          element={<PrivateRoute><TwitterPage/></PrivateRoute>}
+        />
       </Routes>
     </BrowserRouter></div> 
 }

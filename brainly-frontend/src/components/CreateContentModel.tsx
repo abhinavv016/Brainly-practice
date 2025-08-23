@@ -4,6 +4,7 @@ import { Button } from "./Button";
 import { Input } from "./Input";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
+import { useContent } from "../hooks/useContent";
 
 type CreateContentModelProps = {
   open: boolean;
@@ -20,7 +21,9 @@ export function CreateContentModel({open, onClose}: CreateContentModelProps){
     const titleRef = useRef<HTMLInputElement>(null)
     const linkRef = useRef<HTMLInputElement>(null)
     const [type, setType] = useState(ContentType.Youtube)
-
+    const { refresh } = useContent();
+    
+    
     async function addContent(){
         const title = titleRef.current?.value
         const link = linkRef.current?.value
@@ -40,6 +43,7 @@ export function CreateContentModel({open, onClose}: CreateContentModelProps){
             }
         })
         onClose();
+        refresh();
 
         } catch (error) {
             console.error("Failed to add content:", error);

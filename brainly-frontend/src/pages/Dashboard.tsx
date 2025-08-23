@@ -8,20 +8,23 @@ import { Sidebar } from "../components/Sidebar"
 import { useContent } from "../hooks/useContent"
 import { BACKEND_URL, FRONTEND_URL } from "../config"
 import axios from "axios"
-
+import toast, { Toaster } from "react-hot-toast"
 
 export function Dashboard() {
   const [modelOpen, setModelOpen] = useState(false);
   const { refresh, contents } = useContent();
 
   
-  useEffect(()=>{ refresh() },[modelOpen])
+  useEffect( () => {
+    refresh() 
+  },[modelOpen])
 
-  return <div>
+  return <div >
     <div>
       <Sidebar/>
     </div> 
     <div className="ms-72 p-4 min-h-screen bg-gray-200 ">
+      <Toaster position="top-center" />
       <CreateContentModel open={modelOpen} 
       onClose = { () => {setModelOpen(false)
       }}/>
@@ -31,12 +34,12 @@ export function Dashboard() {
           share: "true"
         },{
           headers:{
-                "Authorization":`Bearer ${localStorage.getItem("token")}`  
-            }
+            "Authorization":`Bearer ${localStorage.getItem("token")}`  
+          }
         });
         const shareUrl = `${FRONTEND_URL}/share/${(response.data as any).hash}`;
         navigator.clipboard.writeText(shareUrl)
-        alert("!!Link Generated")
+        toast.success("!!Link Generated")
       }} variant="secondary" text="Share brain" startIcon={<ShareIcon/>}></Button>
       <Button onClick={()=>{setModelOpen(true)
       }} variant="primary" text="Add Content" startIcon={< PlusIcon />}></Button>
@@ -44,6 +47,7 @@ export function Dashboard() {
       <br />
       <div className="flex flex-wrap items-center gap-4"> 
         {contents.map(({title, type, link, _id}) =><Card 
+        key={_id}
         _id={_id}
         title={title} 
         link={link} 

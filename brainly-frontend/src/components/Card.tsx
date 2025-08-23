@@ -10,12 +10,14 @@ import { useContent } from "../hooks/useContent";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
 import { OpenIcon } from "../icons/OpenIcon";
+import toast, { Toaster } from "react-hot-toast";
 
 interface CardProps {
   title: string;
   link: string;
   type: "twitter" | "youtube" | "reddit" | any;
   _id?: string;
+  refresh?: () => void;
 }
 
 export function Card({ title, link, type, _id }: CardProps) {
@@ -24,19 +26,17 @@ export function Card({ title, link, type, _id }: CardProps) {
   async function handleShare() {
     try {
       await navigator.clipboard.writeText(link);
-      alert("Link copied to clipboard!");
+      toast.success("Link copied to clipboard!");
     } catch (error) {
       console.error("Error in copying the content: ", error);
-      alert("Failed to copy link.");
+      toast.error("Failed to copy link.");
     }
   }
   async function handleDelete() {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(`${BACKEND_URL}/api/v1/content`, {
-        headers: { 
-            "Authorization": `Bearer ${token}` 
-        },
+        headers: { "Authorization": `Bearer ${token}` },
         //@ts-ignore
         data: { "contentId": _id },
       });
@@ -48,7 +48,8 @@ export function Card({ title, link, type, _id }: CardProps) {
 
   return (
     <div>
-      <div className="p-6 bg-white rounded-md border border-gray-300 max-w-96">
+      <div className="p-6 bg-white rounded-md border border-gray-300 max-w-96 h-[500px] flex flex-col justify-between">
+        <Toaster position="top-center" />
         <div className="flex justify-between">
           <div className="flex items-center text-md">
             <div className="text-gray-500 pr-3">
@@ -79,7 +80,7 @@ export function Card({ title, link, type, _id }: CardProps) {
             </div>
           </div>
         </div>
-        <div className="pt-5 rounded-md">
+        <div className="pt-5 rounded-md flex-1 overflow-hidden">
           {type === "youtube" && <YoutubeEmbed link={link} />}
           {type === "twitter" && <TwitterEmbed link={link} />}
           {type === "reddit" && <RedditEmbed link={link} />}

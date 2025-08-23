@@ -32,12 +32,12 @@ app.post("/api/v1/signup", async (req, res) => {
             password: hashedPassword
         })
         res.json({
-            message: "You're Signedup"
+            message: "Sign up Successfull! Please Sign in"
         })
     }
     catch(e){
         res.status(409).json({
-            message: "You're already signedup "
+            message: "User already exist "
         })
     }
 })
@@ -49,13 +49,13 @@ app.post("/api/v1/signin",async (req, res) => {
         const user = await UserModel.findOne({username});
         if(!user){
             return res.status(403).json({
-                message: "Invalid Credentials"
+                message: "Invalid Username or Password"
             });
         }
         const isValidPassword = await bcrypt.compare(password, user.password)
         if(!isValidPassword){
             return res.status(403).json({
-                message: "Invalid Credentials"
+                message: "Invalid Password!!"
             });
         }
         const token = jwt.sign({
@@ -63,7 +63,8 @@ app.post("/api/v1/signin",async (req, res) => {
         }, config.JWT_SECRET);
 
         res.json({
-            token
+            token,
+            message: "Signed in Successfully!"
         });
     }catch(error){
         console.error(error);

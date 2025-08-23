@@ -5,6 +5,7 @@ import { Button } from "../components/Button";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 export function Signup(){
     
@@ -15,14 +16,24 @@ export function Signup(){
     async function signup(){
         const username = usernameRef.current?.value;
         const password = passwordRef.current?.value;
-        await axios.post(`${BACKEND_URL}/api/v1/signup`, {
+        try{
+            const response = await axios.post(`${BACKEND_URL}/api/v1/signup`, {
             username,
             password
         })
-        alert("You've Signedup")
-        navigate("/signin");
+        toast.success((response.data as any).message)
+        setTimeout(() => navigate("/signin"), 3000); 
+        } catch(err: any){
+            if(err.response){
+                toast.error(err.response.data.message);
+            }else{
+                toast.error("Something went wrong. Please try again.");
+            }
+        }
+        
     }
     return <div className="h-screen w-screen flex justify-center bg-gray-200 items-center">
+        <Toaster position="top-center" />
             <div className="bg-white rounded-md border min-w-48 p-8">
                 <Input ref={usernameRef} placeholder="Username"/>
                 <Input ref={passwordRef} placeholder="Password"/>
